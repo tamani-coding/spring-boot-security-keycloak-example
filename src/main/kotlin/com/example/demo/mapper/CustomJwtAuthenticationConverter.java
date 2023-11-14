@@ -21,7 +21,9 @@ public class CustomJwtAuthenticationConverter implements Converter<Jwt, Abstract
         Collection<GrantedAuthority> authorities = extractAuthorities(jwt);
 
         // You can also map other information from the Jwt to the custom token
-        return new JwtAuthenticationToken(jwt, authorities);
+        var customJwt = new CustomJwt(jwt, authorities);
+        customJwt.setUsername(jwt.getClaimAsString("name"));
+        return customJwt;
     }
 
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
